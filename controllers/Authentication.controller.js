@@ -54,7 +54,7 @@ AuthRouter.post('/create', (req, res, next) => {
  * METHOD = POST
  * Helps to signin user
  */
-AuthRouter.post("/signin", async(req, res, next) => {
+AuthRouter.post("/signin", async (req, res, next) => {
   /**
    * Get the data from request object
    * Check whether given email is available in the database
@@ -64,13 +64,14 @@ AuthRouter.post("/signin", async(req, res, next) => {
    */
   const { email, password } = req.body;
   try {
-    const response = await Authmodel.findOne({email});
+    const response = await Authmodel.findOne({ email });
     if (response && response._id) {
       bcrypt.compare(password, response.password).then(function (result) {
         if (result) {
           const token = jwt.sign(
             {
-              role: ["customer"]
+              role: response.roles,
+              uid: response._id
             },
             secret,
             {
@@ -104,5 +105,67 @@ AuthRouter.post("/signin", async(req, res, next) => {
     });
   }
 });
+
+/**
+ * METHOD - GET
+ * Helps to list down all the users
+ */
+
+AuthRouter.get('/list', (req, res, next) => {
+  Authmodel.find()
+    .then((response) => {
+      if (response.length > 0) {
+        return res.status(200).json({
+          success: true,
+          message: "Users fetched successfully",
+          data: response
+        })
+      } else {
+        return res.status(200).json({
+          success: true,
+          message: "No users found!",
+          data: [],
+        })
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        success: false,
+        error: error,
+      });
+    });
+});
+
+/**
+ * METHOD - GET
+ * Helps to get the user with help of user id
+ */
+
+AuthRouter.get("/:userId", (req, res, next) => {
+  const { userId = "" } = req.params;
+  console.log(userId);
+  Authmodel.findById(userId)
+    .then((response) => {
+      if (response && response._id) {
+        return res.status(200).json({
+          success: true,
+          message: "User fetched successfully",
+          data: response
+        })
+      } else {
+        return res.status(200).json({
+          success: true,
+          message: "No users found!",
+          data: {},
+        })
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        success: false,
+        error: error,
+      });
+    });
+})
 
 module.exports = AuthRouter;

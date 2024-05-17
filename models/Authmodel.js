@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 //create schema
 
 const AuthSchema = mongoose.Schema({
@@ -25,4 +24,4 @@ const AuthSchema = mongoose.Schema({
       },
 });
 
-module.exports = mongoose.model('user',AuthSchema);
+module.exports = mongoose.model('users',AuthSchema);
