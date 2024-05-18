@@ -10,7 +10,7 @@ const BudgetSchema = mongoose.Schema({
         ref: "expenses",
     },
     date: {
-        type: Date,
+        type: String,
         required: true,
     },
     value: {
