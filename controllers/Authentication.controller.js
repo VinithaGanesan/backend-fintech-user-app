@@ -83,6 +83,7 @@ AuthRouter.post("/signin", async (req, res, next) => {
             success: true,
             message: "Account sign in successful",
             token: token,
+            userId: response._id
           });
         } else {
           res.status(401).json({
