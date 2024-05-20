@@ -13,6 +13,7 @@ function ADD_NEW_EXPENSE(req, res, next) {
         date,
         amount
     } = req.body;
+    console.log(req.body);
     const format = "DD-MM-YYYY HH:mm:ss";
 
     const formattedDate = moment(date, format).toISOString();
