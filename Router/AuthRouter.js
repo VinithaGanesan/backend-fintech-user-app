@@ -64,7 +64,7 @@ async function LOGIN_USER(req, res, next) {
               },
               secret,
               {
-                expiresIn: 60 * 5,
+                expiresIn: '10h', // expires in 10hours
               }
             );
             // GENERATE JWT TOKEN AND SEND IT IN RESPONSE BODY
@@ -124,7 +124,6 @@ function GET_ALL_USERS(req, res, next) {
 
 function GET_USER_BYID (req, res, next) {
     const { userId = "" } = req.params;
-    console.log(userId);
     Authmodel.findById(userId)
       .then((response) => {
         if (response && response._id) {
