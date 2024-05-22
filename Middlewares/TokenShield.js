@@ -32,3 +32,5 @@ function TokenShield(req, res, next) {
     });
   }
 }
+
+module.exports = TokenShield;
