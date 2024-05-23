@@ -29,7 +29,8 @@ function ADD_NEW_INCOME(req, res, next) {
             if (response._id) {
                 return res.status(200).json({
                     success: true,
-                    message: "Income added successfully"
+                    message: "Income added successfully",
+                    data: response,
                 })
             } else {
                 return res.status(500).json({
@@ -78,10 +79,15 @@ function GET_ALL_INCOME(req, res, next) {
 function GET_PARTICULAR_INCOME(req, res, next) {
     const { userId, startDate, endDate } = req.body;
 
+    const formattedstartDate = moment(startDate, "YYYY-MM-DD").format("DD-MM-YYYY");
+    const formattedendDate = moment(endDate, "YYYY-MM-DD").format("DD-MM-YYYY");
+
+
     const format = "DD-MM-YYYY HH:mm:ss";
 
-    const start = moment(startDate, format).toISOString();
-    const end = moment(endDate, format).toISOString();
+
+    const start = moment(formattedstartDate, format).toISOString();
+    const end = moment(formattedendDate, format).toISOString();
 
     const query = {
         userId,
